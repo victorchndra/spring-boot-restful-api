@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import victor_chandra.spring_restful_api.entity.User;
 import victor_chandra.spring_restful_api.model.RegisterUserRequest;
+import victor_chandra.spring_restful_api.model.UpdateUserRequest;
 import victor_chandra.spring_restful_api.model.UserResponse;
 import victor_chandra.spring_restful_api.repository.UserRepository;
 import victor_chandra.spring_restful_api.security.BCrypt;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -48,6 +50,26 @@ public class UserService {
         return UserResponse.builder()
                 .username(user.getUsername())
                 .name(user.getName())
+                .build();
+    }
+
+    @Transactional
+    public UserResponse update(User user, UpdateUserRequest request) {
+        validationService.validate(request);
+
+        if(Objects.nonNull(request.getName())) {
+            user.setName(request.getName());
+        }
+
+        if(Objects.nonNull(request.getPassword())) {
+            user.setPassword(BCrypt.hashpw(request.getPassword(), BCrypt.gensalt()));
+        }
+
+        userRepository.save(user);
+
+        return UserResponse.builder()
+                .name(user.getName())
+                .username(user.getUsername())
                 .build();
     }
 }
