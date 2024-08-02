@@ -32,7 +32,9 @@ public class ContactController {
     )
     public WebResponse<ContactResponse> get(User user, @PathVariable("contactId") String contactId) {
         ContactResponse contactResponse = contactService.get(user, contactId);
-        return WebResponse.<ContactResponse>builder().data(contactResponse).build();
+        return WebResponse.<ContactResponse>builder()
+                .data(contactResponse)
+                .build();
     }
 
     @PutMapping(
@@ -46,5 +48,16 @@ public class ContactController {
         request.setId(contactId);
         ContactResponse contactResponse = contactService.update(user, request);
         return WebResponse.<ContactResponse>builder().data(contactResponse).build();
+    }
+
+    @DeleteMapping(
+            path = "/api/contacts/{contactId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<String> delete(User user, @PathVariable("contactId") String contactId) {
+        contactService.delete(user, contactId);
+        return WebResponse.<String>builder()
+                .data("OK")
+                .build();
     }
 }
