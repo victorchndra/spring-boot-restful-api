@@ -10,6 +10,8 @@ import victor_chandra.spring_restful_api.model.UpdateAddressRequest;
 import victor_chandra.spring_restful_api.model.WebResponse;
 import victor_chandra.spring_restful_api.service.AddressService;
 
+import java.util.List;
+
 @RestController
 public class AddressController {
 
@@ -54,5 +56,26 @@ public class AddressController {
 
         AddressResponse addressResponse = addressService.update(user, request);
         return WebResponse.<AddressResponse>builder().data(addressResponse).build();
+    }
+
+    @DeleteMapping(
+            path = "/api/contacts/{contactId}/addresses/{addressId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<String> remove(User user,
+                                               @PathVariable("contactId") String contactId,
+                                               @PathVariable("addressId") String addressId) {
+        addressService.remove(user, contactId, addressId);
+        return WebResponse.<String>builder().data("OK").build();
+    }
+
+    @GetMapping(
+            path = "/api/contacts/{contactId}/addresses",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<List<AddressResponse>> list(User user,
+                                                   @PathVariable("contactId") String contactId) {
+        List<AddressResponse> addressResponses = addressService.list(user, contactId);
+        return WebResponse.<List<AddressResponse>>builder().data(addressResponses).build();
     }
 }

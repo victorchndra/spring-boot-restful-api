@@ -46,3 +46,9 @@ CREATE TABLE addresses(
 SELECT * FROM addresses;
 
 DESC addresses;
+
+DELETE from addresses;
+
+DELETE from contacts;
+
+DELETE from users;

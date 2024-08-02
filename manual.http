@@ -1,0 +1,36 @@
+### Register
+
+POST http://localhost:8080/api/users
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "victor",
+  "password": "rahasia",
+  "name": "Victor Chandra"
+}
+
+
+### Login
+
+POST http://localhost:8080/api/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "victor",
+  "password": "rahasia"
+}
+
+### Get User
+
+GET http://localhost:8080/api/users/current
+Accept: application/json
+X-API-TOKEN: e04b6742-d142-4f86-9c15-eed087b70897
+
+### Update User
+
+PATCH http://localhost:8080/api/users/current
+Accept: application/json
+Content-Type: application/json
+X-API-TOKEN: a3d31b18-9576-4215-b279-22939b3933ff
